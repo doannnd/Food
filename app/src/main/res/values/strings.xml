@@ -3,4 +3,10 @@
     <string name="logo_image">logo image</string>
     <string name="sign_up_button_text">Sign Up</string>
     <string name="sign_in_button_text">Sign In</string>
+    <string name="hint_phone_number">Phone number</string>
+    <string name="hint_full_name">Full name</string>
+    <string name="test_name">doannd</string>
+    <string name="hint_password">Password</string>
+    <string name="test_password">111111</string>
+    <string name="test_phone">0395616595</string>
 </resources>
