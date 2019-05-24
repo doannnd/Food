@@ -24,10 +24,20 @@ public class SignInPresenterImpl implements SignInPresenter{
 
     @Override
     public void performSignIn(final String phoneNumber, final String password) {
+
+        signInView.showLoading();
+
         DatabaseReference userObject = FirebaseDatabase.getInstance().getReference(USERS_TABLE_NAME);
-        userObject.addValueEventListener(new ValueEventListener() {
+        userObject.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                signInView.hideLoading();
+
+                if (phoneNumber.isEmpty() || password.isEmpty()) {
+                    return;
+                }
+
                 // check phone number has exist
                 if (dataSnapshot.child(phoneNumber).exists()) {
                     // get user by phone number and check user exist
@@ -48,6 +58,9 @@ public class SignInPresenterImpl implements SignInPresenter{
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                signInView.hideLoading();
+
                 Log.e(TAG, "onCancelled: perform login error" + databaseError.getMessage());
             }
         });

@@ -11,4 +11,8 @@
     <string name="test_phone">0395616595</string>
     <string name="user_not_exist">User not exist</string>
     <string name="password_failed">Password failed</string>
+    <string name="test_phone_2">0962539727</string>
+    <string name="test_name_2">dangnd</string>
+    <string name="phone_number_already_register">Phone number already register</string>
+    <string name="sign_up_failed">Sign up failed</string>
 </resources>

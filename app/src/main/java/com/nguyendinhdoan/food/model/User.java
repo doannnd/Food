@@ -8,9 +8,9 @@ public class User {
     public User() {
     }
 
-    public User(String name, String phone) {
+    public User(String name, String password) {
         this.name = name;
-        this.password = phone;
+        this.password = password;
     }
 
     public String getName() {

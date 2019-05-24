@@ -7,6 +7,7 @@ import android.widget.Button;
 
 import com.nguyendinhdoan.food.R;
 import com.nguyendinhdoan.food.ui.sign_in.SignInActivity;
+import com.nguyendinhdoan.food.ui.sign_up.SignUpActivity;
 
 public class WelcomeActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -40,6 +41,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
                 break;
             }
             case R.id.sign_up_button: {
+                startActivity(SignUpActivity.start(this));
                 break;
             }
         }

@@ -1,11 +1,11 @@
-package com.nguyendinhdoan.food.ui.sign_in;
+package com.nguyendinhdoan.food.ui.sign_up;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -13,23 +13,23 @@ import android.widget.Toast;
 
 import com.nguyendinhdoan.food.R;
 
-public class SignInActivity extends AppCompatActivity
-        implements SignInView, View.OnClickListener {
+public class SignUpActivity extends AppCompatActivity
+        implements SignUpView, View.OnClickListener {
 
-    private TextInputEditText phoneEditText, passwordEditText;
-    private Button signInButton;
-    private ProgressBar signInLoading;
+    private TextInputEditText nameEditText, phoneEditText, passwordEditText;
+    private Button signUpButton;
+    private ProgressBar signUpLoading;
 
-    private SignInPresenter signInPresenter;
+    private SignUpPresenter signUpPresenter;
 
     public static Intent start(Context context) {
-        return new Intent(context, SignInActivity.class);
+        return new Intent(context, SignUpActivity.class);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_in);
+        setContentView(R.layout.activity_sign_up);
 
         initViews();
         setupUI();
@@ -37,38 +37,40 @@ public class SignInActivity extends AppCompatActivity
     }
 
     private void setupUI() {
-        signInPresenter = new SignInPresenterImpl(this);
+        signUpPresenter = new SignUpPresenterImpl(this);
     }
 
     private void addEvents() {
-        signInButton.setOnClickListener(this);
+        signUpButton.setOnClickListener(this);
     }
 
     private void initViews() {
+        nameEditText = findViewById(R.id.name_edit_text);
         phoneEditText = findViewById(R.id.phone_edit_text);
         passwordEditText = findViewById(R.id.password_edit_text);
-        signInButton = findViewById(R.id.sign_in_button);
-        signInLoading = findViewById(R.id.sign_in_loading);
+        signUpButton = findViewById(R.id.sign_up_button);
+        signUpLoading = findViewById(R.id.sign_up_loading);
     }
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.sign_in_button) {
+        if (v.getId() == R.id.sign_up_button) {
+            String name = nameEditText.getText().toString();
             String phoneNumber = phoneEditText.getText().toString();
             String password = passwordEditText.getText().toString();
 
-            signInPresenter.performSignIn(phoneNumber, password);
+            signUpPresenter.performSignUp(phoneNumber, name, password);
         }
     }
 
     @Override
     public void showLoading() {
-        signInLoading.setVisibility(View.VISIBLE);
+        signUpLoading.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideLoading() {
-        signInLoading.setVisibility(View.GONE);
+        signUpLoading.setVisibility(View.GONE);
     }
 
     @Override
@@ -77,9 +79,10 @@ public class SignInActivity extends AppCompatActivity
     }
 
     @Override
-    public void onSuccess(boolean isLoginSuccess) {
-        if (isLoginSuccess) {
-            Toast.makeText(this, "success", Toast.LENGTH_SHORT).show();
+    public void onSuccess(boolean isSignUpSuccess) {
+        if (isSignUpSuccess) {
+            Toast.makeText(this, "sign up success", Toast.LENGTH_SHORT).show();
+            finish();
         }
     }
 }
