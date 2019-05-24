@@ -9,4 +9,6 @@
     <string name="hint_password">Password</string>
     <string name="test_password">111111</string>
     <string name="test_phone">0395616595</string>
+    <string name="user_not_exist">User not exist</string>
+    <string name="password_failed">Password failed</string>
 </resources>
