@@ -12,11 +12,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.nguyendinhdoan.food.R;
 import com.nguyendinhdoan.food.model.User;
+import com.nguyendinhdoan.food.utils.CommonUtils;
 
 public class SignUpPresenterImpl implements SignUpPresenter {
 
     private static final String TAG = SignUpPresenterImpl.class.getSimpleName();
-    private static final String USERS_TABLE_NAME = "users";
 
     private SignUpView signUpView;
 
@@ -29,7 +29,7 @@ public class SignUpPresenterImpl implements SignUpPresenter {
 
         signUpView.showLoading();
 
-        final DatabaseReference userObject = FirebaseDatabase.getInstance().getReference(USERS_TABLE_NAME);
+        final DatabaseReference userObject = FirebaseDatabase.getInstance().getReference(CommonUtils.USERS_TABLE_NAME);
         userObject.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

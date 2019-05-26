@@ -10,11 +10,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.nguyendinhdoan.food.R;
 import com.nguyendinhdoan.food.model.User;
+import com.nguyendinhdoan.food.utils.CommonUtils;
 
 public class SignInPresenterImpl implements SignInPresenter{
 
     private static final String TAG = SignInPresenterImpl.class.getSimpleName();
-    private static final String USERS_TABLE_NAME = "users";
 
     private SignInView signInView;
 
@@ -25,18 +25,18 @@ public class SignInPresenterImpl implements SignInPresenter{
     @Override
     public void performSignIn(final String phoneNumber, final String password) {
 
+        if (phoneNumber.isEmpty() || password.isEmpty()) {
+            return;
+        }
+
         signInView.showLoading();
 
-        DatabaseReference userObject = FirebaseDatabase.getInstance().getReference(USERS_TABLE_NAME);
-        userObject.addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference userObject = FirebaseDatabase.getInstance().getReference(CommonUtils.USERS_TABLE_NAME);
+        userObject.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 signInView.hideLoading();
-
-                if (phoneNumber.isEmpty() || password.isEmpty()) {
-                    return;
-                }
 
                 // check phone number has exist
                 if (dataSnapshot.child(phoneNumber).exists()) {
@@ -51,6 +51,7 @@ public class SignInPresenterImpl implements SignInPresenter{
                     } else {
                         signInView.onError(R.string.password_failed);
                     }
+
                 } else {
                     signInView.onError(R.string.user_not_exist);
                 }
