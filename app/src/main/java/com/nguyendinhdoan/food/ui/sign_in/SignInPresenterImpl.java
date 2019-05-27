@@ -9,6 +9,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.nguyendinhdoan.food.R;
+import com.nguyendinhdoan.food.common.Common;
 import com.nguyendinhdoan.food.model.User;
 import com.nguyendinhdoan.food.utils.CommonUtils;
 
@@ -48,6 +49,9 @@ public class SignInPresenterImpl implements SignInPresenter{
                     // check password correct
                     if (user.getPassword().equals(password)) {
                         signInView.onSuccess(true);
+//                    --------------   Save current user
+
+                        Common.currentUser = user;
                     } else {
                         signInView.onError(R.string.password_failed);
                     }

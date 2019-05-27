@@ -5,4 +5,5 @@
     <color name="colorAccent">#000000</color>
 
     <color name="overlayBackground">#7f333639</color>
+    <color name="background_menu_name">#4f0e0d0e</color>
 </resources>

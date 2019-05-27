@@ -27,4 +27,6 @@
     <string name="menu_cart">Cart</string>
     <string name="menu_order">Order</string>
     <string name="menu_sign_out">Sign out</string>
+    <string name="toolbar_title">Menu</string>
+    <string name="menu_intro_image_view">menu intro image view</string>
 </resources>

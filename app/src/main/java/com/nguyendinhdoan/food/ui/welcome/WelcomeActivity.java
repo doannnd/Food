@@ -1,4 +1,4 @@
-package com.nguyendinhdoan.food.ui;
+package com.nguyendinhdoan.food.ui.welcome;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

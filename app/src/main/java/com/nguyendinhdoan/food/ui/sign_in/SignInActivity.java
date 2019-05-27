@@ -2,16 +2,16 @@ package com.nguyendinhdoan.food.ui.sign_in;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.nguyendinhdoan.food.R;
+import com.nguyendinhdoan.food.ui.home.HomeActivity;
 
 public class SignInActivity extends AppCompatActivity
         implements SignInView, View.OnClickListener {
@@ -79,7 +79,8 @@ public class SignInActivity extends AppCompatActivity
     @Override
     public void onSuccess(boolean isLoginSuccess) {
         if (isLoginSuccess) {
-            Toast.makeText(this, "success", Toast.LENGTH_SHORT).show();
+            startActivity(HomeActivity.start(this));
+            finish();
         }
     }
 }
