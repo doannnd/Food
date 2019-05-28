@@ -5,19 +5,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.support.v4.view.GravityCompat;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.view.MenuItem;
-import android.support.design.widget.NavigationView;
-import android.support.v4.widget.DrawerLayout;
-
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -26,9 +25,14 @@ import com.nguyendinhdoan.food.R;
 import com.nguyendinhdoan.food.common.Common;
 import com.nguyendinhdoan.food.holder.MenuViewHolder;
 import com.nguyendinhdoan.food.model.Category;
+import com.nguyendinhdoan.food.ui.base.BaseActivity;
+import com.nguyendinhdoan.food.ui.food.FoodActivity;
+import com.nguyendinhdoan.food.utils.ConstantUtils;
 
-public class HomeActivity extends AppCompatActivity
+public class HomeActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, HomeView {
+
+    private static final String TAG = HomeActivity.class.getSimpleName();
 
     private Toolbar toolbar;
     private FloatingActionButton fab;
@@ -37,7 +41,7 @@ public class HomeActivity extends AppCompatActivity
     private ProgressBar menuLoading;
     private RecyclerView menuRecyclerView;
 
-    private HomePresenter homePresenter;
+    private HomePresenter<HomeView> homePresenter;
 
     public static Intent start(Context context) {
         return new Intent(context, HomeActivity.class);
@@ -53,7 +57,8 @@ public class HomeActivity extends AppCompatActivity
         addEvents();
     }
 
-    private void addEvents() {
+    @Override
+    public void addEvents() {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,11 +70,13 @@ public class HomeActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    private void setupUI() {
+    @Override
+    public void setupUI() {
         setupToolbar();
         setupNavigationView();
 
-        homePresenter = new HomePresenterImpl(this);
+        homePresenter = new HomePresenterImpl<>();
+        homePresenter.onAttach(this);
         homePresenter.loadFoodMenu();
     }
 
@@ -80,7 +87,7 @@ public class HomeActivity extends AppCompatActivity
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-//        ----------------- display name of user in navigation view
+//      ---- display name of user in navigation view
         View viewNav = navigationView.getHeaderView(0);
         TextView fullNameTextView = viewNav.findViewById(R.id.full_name_text_view);
 
@@ -94,7 +101,8 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
-    private void initViews() {
+    @Override
+    public void initViews() {
         toolbar = findViewById(R.id.toolbar);
         fab = findViewById(R.id.fab);
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -152,5 +160,19 @@ public class HomeActivity extends AppCompatActivity
         menuRecyclerView.setHasFixedSize(true);
         menuRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         menuRecyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onFoodMenuClicked(String categoryId) {
+        Log.d(TAG, "onFoodMenuClicked: category id" + categoryId);
+        Intent foodIntent = FoodActivity.start(this);
+        foodIntent.putExtra(ConstantUtils.CATEGORY_ID_KEY, categoryId);
+        startActivity(foodIntent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        homePresenter.onDetach();
+        super.onDestroy();
     }
 }

@@ -12,15 +12,16 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.nguyendinhdoan.food.R;
+import com.nguyendinhdoan.food.ui.base.BaseActivity;
 
-public class SignUpActivity extends AppCompatActivity
+public class SignUpActivity extends BaseActivity
         implements SignUpView, View.OnClickListener {
 
     private TextInputEditText nameEditText, phoneEditText, passwordEditText;
     private Button signUpButton;
     private ProgressBar signUpLoading;
 
-    private SignUpPresenter signUpPresenter;
+    private SignUpPresenter<SignUpView> signUpPresenter;
 
     public static Intent start(Context context) {
         return new Intent(context, SignUpActivity.class);
@@ -36,15 +37,19 @@ public class SignUpActivity extends AppCompatActivity
         addEvents();
     }
 
-    private void setupUI() {
-        signUpPresenter = new SignUpPresenterImpl(this);
+    @Override
+    public void setupUI() {
+        signUpPresenter = new SignUpPresenterImpl<>();
+        signUpPresenter.onAttach(this);
     }
 
-    private void addEvents() {
+    @Override
+    public void addEvents() {
         signUpButton.setOnClickListener(this);
     }
 
-    private void initViews() {
+    @Override
+    public void initViews() {
         nameEditText = findViewById(R.id.name_edit_text);
         phoneEditText = findViewById(R.id.phone_edit_text);
         passwordEditText = findViewById(R.id.password_edit_text);
@@ -84,5 +89,11 @@ public class SignUpActivity extends AppCompatActivity
             Toast.makeText(this, "sign up success", Toast.LENGTH_SHORT).show();
             finish();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        signUpPresenter.onDetach();
+        super.onDestroy();
     }
 }

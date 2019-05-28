@@ -2,11 +2,9 @@ package com.nguyendinhdoan.food.ui.sign_up;
 
 import android.support.annotation.StringRes;
 
-public interface SignUpView {
+import com.nguyendinhdoan.food.ui.base.MvpView;
 
-    void showLoading();
-
-    void hideLoading();
+public interface SignUpView extends MvpView {
 
     void onError(@StringRes int message);
 

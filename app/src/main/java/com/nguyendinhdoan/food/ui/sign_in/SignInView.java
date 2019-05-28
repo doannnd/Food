@@ -2,11 +2,9 @@ package com.nguyendinhdoan.food.ui.sign_in;
 
 import android.support.annotation.StringRes;
 
-public interface SignInView {
+import com.nguyendinhdoan.food.ui.base.MvpView;
 
-    void showLoading();
-
-    void hideLoading();
+public interface SignInView extends MvpView {
 
     void onError(@StringRes int message);
 

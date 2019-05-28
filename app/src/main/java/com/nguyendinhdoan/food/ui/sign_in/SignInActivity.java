@@ -11,16 +11,17 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.nguyendinhdoan.food.R;
+import com.nguyendinhdoan.food.ui.base.BaseActivity;
 import com.nguyendinhdoan.food.ui.home.HomeActivity;
 
-public class SignInActivity extends AppCompatActivity
+public class SignInActivity extends BaseActivity
         implements SignInView, View.OnClickListener {
 
     private TextInputEditText phoneEditText, passwordEditText;
     private Button signInButton;
     private ProgressBar signInLoading;
 
-    private SignInPresenter signInPresenter;
+    private SignInPresenter<SignInView> signInPresenter;
 
     public static Intent start(Context context) {
         return new Intent(context, SignInActivity.class);
@@ -36,15 +37,19 @@ public class SignInActivity extends AppCompatActivity
         addEvents();
     }
 
-    private void setupUI() {
-        signInPresenter = new SignInPresenterImpl(this);
+    @Override
+    public void setupUI() {
+        signInPresenter = new SignInPresenterImpl<>();
+        signInPresenter.onAttach(this);
     }
 
-    private void addEvents() {
+    @Override
+    public void addEvents() {
         signInButton.setOnClickListener(this);
     }
 
-    private void initViews() {
+    @Override
+    public void initViews() {
         phoneEditText = findViewById(R.id.phone_edit_text);
         passwordEditText = findViewById(R.id.password_edit_text);
         signInButton = findViewById(R.id.sign_in_button);
@@ -82,5 +87,11 @@ public class SignInActivity extends AppCompatActivity
             startActivity(HomeActivity.start(this));
             finish();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        signInPresenter.onDetach();
+        super.onDestroy();
     }
 }
