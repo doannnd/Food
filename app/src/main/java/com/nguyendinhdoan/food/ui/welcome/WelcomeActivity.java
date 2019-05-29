@@ -2,56 +2,27 @@ package com.nguyendinhdoan.food.ui.welcome;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 
 import com.nguyendinhdoan.food.R;
 import com.nguyendinhdoan.food.ui.base.BaseActivity;
 import com.nguyendinhdoan.food.ui.sign_in.SignInActivity;
 import com.nguyendinhdoan.food.ui.sign_up.SignUpActivity;
 
-public class WelcomeActivity extends BaseActivity implements View.OnClickListener {
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-    private Button signInButton, signUpButton;
+public class WelcomeActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-        initViews();
-        addEvents();
-    }
-
-    @Override
-    public void addEvents() {
-        signUpButton.setOnClickListener(this);
-        signInButton.setOnClickListener(this);
-    }
-
-    @Override
-    public void initViews() {
-        signInButton = findViewById(R.id.sign_in_button);
-        signUpButton = findViewById(R.id.sign_up_button);
+        setUnbinder(ButterKnife.bind(this));
     }
 
     @Override
     public void setupUI() {
-
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.sign_in_button: {
-                startActivity(SignInActivity.start(this));
-                finish();
-                break;
-            }
-            case R.id.sign_up_button: {
-                startActivity(SignUpActivity.start(this));
-                break;
-            }
-        }
     }
 
     @Override
@@ -62,5 +33,18 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void hideLoading() {
 
+    }
+
+    @OnClick({R.id.sign_up_button, R.id.sign_in_button})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.sign_up_button:
+                startActivity(SignUpActivity.start(this));
+                break;
+            case R.id.sign_in_button:
+                startActivity(SignInActivity.start(this));
+                finish();
+                break;
+        }
     }
 }

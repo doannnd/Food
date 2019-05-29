@@ -10,10 +10,16 @@ import android.widget.TextView;
 import com.nguyendinhdoan.food.R;
 import com.nguyendinhdoan.food.listener.OnItemClickListener;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+    @BindView(R.id.menu_intro_image_view)
     public ImageView menuIntroImageView;
+    @BindView(R.id.menu_name_text_view)
     public TextView menuNameTextView;
+    @BindView(R.id.menu_item_loading)
     public ProgressBar menuItemLoading;
 
     private OnItemClickListener onItemClickListener;
@@ -24,10 +30,7 @@ public class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnCl
 
     public MenuViewHolder(@NonNull View itemView) {
         super(itemView);
-
-        menuIntroImageView = itemView.findViewById(R.id.menu_intro_image_view);
-        menuNameTextView = itemView.findViewById(R.id.menu_name_text_view);
-        menuItemLoading = itemView.findViewById(R.id.menu_item_loading);
+        ButterKnife.bind(this, itemView);
 
 //        ------------ set event when click into menu recycler view item
         itemView.setOnClickListener(this);

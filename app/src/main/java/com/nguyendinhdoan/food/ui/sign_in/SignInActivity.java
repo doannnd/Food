@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -14,12 +13,19 @@ import com.nguyendinhdoan.food.R;
 import com.nguyendinhdoan.food.ui.base.BaseActivity;
 import com.nguyendinhdoan.food.ui.home.HomeActivity;
 
-public class SignInActivity extends BaseActivity
-        implements SignInView, View.OnClickListener {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-    private TextInputEditText phoneEditText, passwordEditText;
-    private Button signInButton;
-    private ProgressBar signInLoading;
+public class SignInActivity extends BaseActivity
+        implements SignInView {
+
+    @BindView(R.id.phone_edit_text)
+    TextInputEditText phoneEditText;
+    @BindView(R.id.password_edit_text)
+    TextInputEditText passwordEditText;
+    @BindView(R.id.sign_in_loading)
+    ProgressBar signInLoading;
 
     private SignInPresenter<SignInView> signInPresenter;
 
@@ -31,39 +37,15 @@ public class SignInActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+        setUnbinder( ButterKnife.bind(this));
 
-        initViews();
         setupUI();
-        addEvents();
     }
 
     @Override
     public void setupUI() {
         signInPresenter = new SignInPresenterImpl<>();
         signInPresenter.onAttach(this);
-    }
-
-    @Override
-    public void addEvents() {
-        signInButton.setOnClickListener(this);
-    }
-
-    @Override
-    public void initViews() {
-        phoneEditText = findViewById(R.id.phone_edit_text);
-        passwordEditText = findViewById(R.id.password_edit_text);
-        signInButton = findViewById(R.id.sign_in_button);
-        signInLoading = findViewById(R.id.sign_in_loading);
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.sign_in_button) {
-            String phoneNumber = phoneEditText.getText().toString();
-            String password = passwordEditText.getText().toString();
-
-            signInPresenter.performSignIn(phoneNumber, password);
-        }
     }
 
     @Override
@@ -87,6 +69,14 @@ public class SignInActivity extends BaseActivity
             startActivity(HomeActivity.start(this));
             finish();
         }
+    }
+
+    @OnClick(R.id.sign_in_button)
+    public void handleSignIn() {
+        String phoneNumber = phoneEditText.getText().toString();
+        String password = passwordEditText.getText().toString();
+
+        signInPresenter.performSignIn(phoneNumber, password);
     }
 
     @Override

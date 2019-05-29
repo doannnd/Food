@@ -29,17 +29,28 @@ import com.nguyendinhdoan.food.ui.base.BaseActivity;
 import com.nguyendinhdoan.food.ui.food.FoodActivity;
 import com.nguyendinhdoan.food.utils.ConstantUtils;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.OnLongClick;
+
 public class HomeActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, HomeView {
 
     private static final String TAG = HomeActivity.class.getSimpleName();
 
-    private Toolbar toolbar;
-    private FloatingActionButton fab;
-    private DrawerLayout drawerLayout;
-    private NavigationView navigationView;
-    private ProgressBar menuLoading;
-    private RecyclerView menuRecyclerView;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.menu_loading)
+    ProgressBar menuLoading;
+    @BindView(R.id.menu_recycler_view)
+    RecyclerView menuRecyclerView;
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
+    @BindView(R.id.nav_view)
+    NavigationView navigationView;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawerLayout;
 
     private HomePresenter<HomeView> homePresenter;
 
@@ -51,14 +62,18 @@ public class HomeActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        setUnbinder( ButterKnife.bind(this));
 
-        initViews();
         setupUI();
         addEvents();
     }
 
-    @Override
-    public void addEvents() {
+    private void addEvents() {
+        navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    @OnClick(R.id.fab)
+    public void handleFab() {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,8 +81,6 @@ public class HomeActivity extends BaseActivity
                         .setAction("Action", null).show();
             }
         });
-
-        navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
@@ -99,16 +112,6 @@ public class HomeActivity extends BaseActivity
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(getString(R.string.toolbar_title));
         }
-    }
-
-    @Override
-    public void initViews() {
-        toolbar = findViewById(R.id.toolbar);
-        fab = findViewById(R.id.fab);
-        drawerLayout = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.nav_view);
-        menuLoading = findViewById(R.id.menu_loading);
-        menuRecyclerView = findViewById(R.id.menu_recycler_view);
     }
 
     @Override
